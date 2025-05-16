@@ -1,1 +1,1 @@
-<a href="/pengguna"> masuk sini boy</a>
+<a href="/admin"> masuk sini boy</a>

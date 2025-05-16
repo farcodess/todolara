@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\TodoController;
 
 Route::get('/', function () {
@@ -10,13 +10,17 @@ Route::get('/', function () {
 
 
 // Route::get('/index', function() {
-//     return view('pengguna.index');
+//     return view('admin.index');
 // });
 
-// Route::get('/pengguna', [PenggunaController::class,'index']);
-Route::get('/pengguna', [TodoController::class, 'tampilkantodo']);
-Route::get('/pengguna/{id}', [TodoController::class, 'detailtugas']);
-Route::get('/pengguna/hapustodos/{id}', [TodoController::class, 'hapustodos']);
+// Route::get('/admin', [adminController::class,'index']);
+Route::get('/admin', [TodoController::class, 'tampilkantodo']);
+Route::get('/admin/{id}', [TodoController::class, 'detailtugas']);
+Route::get('/admin/hapustodos/{id}', [TodoController::class, 'hapustodos']);
 Route::get('/TambahTugas', [TodoController::class, 'tambahtugas']);
 Route::post('/simpantugas', [TodoController::class, 'simpantugas']);
-// Route::get('/pengguna/create', [PenggunaController::class,'create']);
+Route::get('/admin/edittugas/{id}', [TodoController::class, 'edittugas']);
+Route::post('/simpanedit/{id}', [TodoController::class, 'simpanedit']);
+
+
+// Route::get('/admin/create', [adminController::class,'create']);

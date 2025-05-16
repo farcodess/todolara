@@ -9,18 +9,20 @@ class TodoController extends Controller
 {
     function tampilkantodo() {
         $datatodo = DB::table('tb_todo')
-        ->join('tb_pegawai', 'tb_todo.tugas_dari', '=', 'tb_pegawai.id')
+        ->join('tb_pegawai as pemberi', 'tb_todo.tugas_dari', '=', 'pemberi.id')
+        ->join('tb_pegawai as penerima', 'tb_todo.tugas_untuk', '=', 'penerima.id' )
         ->select(
             'tb_todo.id',
             'tb_todo.tugas',
-            'tb_pegawai.nama as pemberi_tugas',
-            'tb_todo.keterangan'
+            'pemberi.nama as pemberi_tugas',
+            'penerima.nama as penerima_tugas',
+            'tb_todo.keterangan',
            
 
         )
         ->get();
 
-        return view('pengguna.index', ['dataTodos' => $datatodo]);
+        return view('admin.index', ['dataTodos' => $datatodo]);
     }
 
     function detailtugas($id){
@@ -37,19 +39,21 @@ class TodoController extends Controller
             'pengirim.nama as pemberi_tugas',
             'penerima.nama as penerima_tugas',
             'td.keterangan',
+            'td.waktu_mulai',
+            'td.waktu_selesai',
             'td.created_at',
             'td.updated_at'
         )->where('td.id', $id
         )->get();
 
-        return view('pengguna.detail_tugaas' , ['detailTodo' => $tugas]);
+        return view('admin.detail_tugaas' , ['detailTodo' => $tugas]);
     }
     
     function hapustodos($id){
         DB::table('tb_todo')
         ->where('id', $id)
         ->delete();
-        return redirect('/pengguna');
+        return redirect('/admin');
     }
 
     function tambahtugas(){
@@ -62,7 +66,7 @@ class TodoController extends Controller
         ->where('jabatan', '!=', 'CEO')
         ->get();
         
-        return view('pengguna.tambahtugas',
+        return view('admin.tambahtugas',
         ['databos' => $databos],
         ['datapegawai' => $datapegawai]);
     }
@@ -77,10 +81,45 @@ class TodoController extends Controller
             'tugas_untuk' => $request->tugasuntuk,
             'keterangan' => $request->keterangan
         ]); 
-        return redirect('/pengguna');
-      
-
+        return redirect('/admin');
     }
+
+    function edittugas($id){
+    $tugas = DB::table('tb_todo')
+    ->select('id', 'tugas', 'waktu_mulai', 'waktu_selesai', 'tugas_dari', 'tugas_untuk', 'keterangan')
+    ->where('id', '=', $id)
+    ->first(); 
+
+    $databos = DB::table('tb_pegawai')
+    ->where('jabatan', '=', 'CEO')
+    ->get();
+
+    $datapegawai = DB::table('tb_pegawai')
+    ->where('jabatan', '!=', 'CEO')
+    ->get();
+    
+    return view('admin.edittugas', [
+        'databos' => $databos,
+        'datapegawai' => $datapegawai,
+        'tugas' => $tugas
+    ]);
+}
+
+
+function simpanedit(Request $request, $id){
+    DB::table('tb_todo')
+    ->where('id', $id)
+    ->update([
+        'tugas' => $request->namaTugas,
+        // 'waktu_mulai' => $request->waktumulai,
+        // 'waktu_selesai' => $request->waktuselesai,
+        'tugas_dari' => $request->tugasdari,
+        'tugas_untuk' => $request->tugasuntuk,
+        'keterangan' => $request->keterangan
+    ]);
+    return redirect('/admin');
+}
+
 }
 
 

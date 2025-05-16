@@ -18,6 +18,7 @@
     <th>Id</th>
     <th>Tugas</th>
     <th>Pemberi Tugas</th>
+    <th>Penerima Tugas</th>
     <th>keterangan</th>
     <th>action</th>
 </thead>
@@ -30,10 +31,15 @@
     <td>{{ $tugas->id }}</td>
     <td>{{ $tugas->tugas }}</td>
     <td>{{ $tugas->pemberi_tugas }}</td>
+    <td>{{ $tugas->penerima_tugas }}</td>
     <td>{{ $tugas->keterangan }}</td>
-    <td><a href="/pengguna/{{$tugas->id}} ">detail Tugas</a>
-        <a href="/pengguna/hapustodos/{{ $tugas->id }}">hapus Tugas</a></td>
+    <td><a href="/admin/{{$tugas->id}} ">detail Tugas</a>
+        <a href="/admin/hapustodos/{{ $tugas->id }}">hapus Tugas</a>
+        <a href="/admin/edittugas/{{ $tugas->id }}">Edit Tugas</a>
+    </td>
     
+    </td>
+      
     </tbody>
         
     @endforeach

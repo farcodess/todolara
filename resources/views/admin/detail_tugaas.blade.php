@@ -14,6 +14,10 @@
             <th>Tugas</th>
             <th>Pemberi Tugas</th>
             <th>Penerima Tugas</th>
+            <th>Waktu Mulai</th>
+            <th>Waktu Selesai</th>
+            <th>Waktu Dibuat</th>
+            <th>Waktu Update</th>
             <th>Keterangan</th>
         </thead>
         <tbody>
@@ -22,6 +26,10 @@
             <td>{{ $Todo->tugas }}</td>
             <td>{{ $Todo->pemberi_tugas }}</td>
             <td>{{ $Todo->penerima_tugas }}</td>
+            <td>{{ $Todo->waktu_mulai }}</td>
+            <td>{{ $Todo->waktu_selesai }}</td>
+            <td>{{ $Todo->created_at }}</td>
+            <td>{{ $Todo->updated_at }}</td>
             <td>{{ $Todo->keterangan }}</td>
             @endforeach
         </tbody>
